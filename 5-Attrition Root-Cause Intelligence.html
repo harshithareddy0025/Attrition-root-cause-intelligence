@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Attrition Root-Cause Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--ink:#16202e;--mut:#6a7688;--line:#e3e8f0;--acc:#3b6cf6;--bad:#e5484d;--good:#2ea66b;--warn:#e8a317;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f141c;--card:#18202c;--ink:#e8edf5;--mut:#8b97aa;--line:#273142;--acc:#6b93ff}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0f141c;--card:#18202c;--ink:#e8edf5;--mut:#8b97aa;--line:#273142;--acc:#6b93ff}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:16px 20px 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+h1{font-size:19px;margin:0}h1 small{display:block;font-weight:400;color:var(--mut);font-size:12px}
+nav{display:flex;gap:4px;padding:12px 20px 0;overflow-x:auto;border-bottom:1px solid var(--line)}
+nav button{background:none;border:0;border-bottom:2px solid transparent;padding:9px 13px;color:var(--mut);font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+nav button.on{color:var(--acc);border-color:var(--acc)}
+main{padding:18px 20px 40px;max-width:1280px;margin:auto}
+.g{display:grid;gap:14px}.k{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}.c2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.card h3{margin:0 0 4px;font-size:14px}.sub{color:var(--mut);font-size:12px;margin:0 0 12px}
+.kpi b{font-size:26px;display:block;line-height:1.2}.kpi span{color:var(--mut);font-size:12px}
+.br{display:grid;grid-template-columns:130px 1fr 54px;gap:8px;align-items:center;margin:7px 0;font-size:13px}
+.bt{background:var(--line);height:10px;border-radius:6px;overflow:hidden}.bt i{display:block;height:100%;border-radius:6px}.br b{text-align:right}
+.dv{display:grid;grid-template-columns:150px 1fr 70px;gap:8px;align-items:center;margin:8px 0;font-size:12.5px}
+.dvb{position:relative;height:14px;background:var(--line);border-radius:4px}.dvb:after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;border-left:1px solid var(--mut)}
+.dvb i{position:absolute;top:0;height:100%}
+table{width:100%;border-collapse:collapse;font-size:12.5px}th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--mut);font-weight:600;font-size:11.5px}
+.wrap{overflow-x:auto}
+.chip{display:inline-block;padding:1px 8px;margin:1px 3px 1px 0;border-radius:10px;background:rgba(229,72,77,.13);color:var(--bad);font-size:11.5px}
+.pill{padding:2px 9px;border-radius:10px;font-weight:600;font-size:12px}
+select,input[type=text]{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font:inherit}
+input[type=range]{width:100%}
+.sl{margin:10px 0}.sl label{display:flex;justify-content:space-between;font-size:12.5px}
+.chat{height:420px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px}
+.m{max-width:92%;padding:9px 12px;border-radius:12px;border:1px solid var(--line)}.m.u{align-self:flex-end;background:var(--acc);color:#fff;border:0}.m.a{background:var(--bg)}
+.qs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.qs button,.btn{background:var(--card);color:var(--acc);border:1px solid var(--line);border-radius:16px;padding:5px 11px;font:inherit;font-size:12.5px;cursor:pointer}
+.btn.p{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:8px 16px}
+.row{display:flex;gap:8px}.row input{flex:1}
+.hm td{text-align:center;font-size:12px;border:2px solid var(--card)}.hm td:first-child{text-align:left}
+.good{color:var(--good)}.bad{color:var(--bad)}
+ul{padding-left:18px;margin:6px 0}
+</style></head><body>
+<header><h1>Attrition Root-Cause Intelligence<small>People analytics · synthetic dataset of 640 employees · FY 2025-26</small></h1>
+<span class="sub" id="auc"></span></header>
+<nav id="nav"></nav><main id="view"></main>
+<script>
+const $=s=>document.querySelector(s);
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const R=rng(7),gs=()=>Math.sqrt(-2*Math.log(1-R()))*Math.cos(6.283185*R()),cl=(x,a,b)=>Math.max(a,Math.min(b,x)),sg=z=>1/(1+Math.exp(-z));
+const D=[['Sales',3,4,.95],['Engineering',-1,1,1.25],['Customer Support',4,5,.8],['Operations',2,3,.85],['HR',-2,0,.9],['Finance',-1,1,1.05]];
+const FS=[['compa','Pay vs market (compa-ratio)',['Below-market pay','Above-market pay']],['workload','Weekly workload (hrs)',['Light workload','Heavy workload']],['overtime','Overtime (hrs/month)',['Low overtime','Heavy overtime']],['absence','Absenteeism (days/6m)',['Low absence','High absence']],['engagement','Engagement score',['Low engagement','High engagement']],['training','Training (hrs/yr)',['Low training','High training']],['perf','Performance rating',['Low performance','High performance']],['tenure','Tenure (yrs)',['Short tenure','Long tenure']]];
+const E=[];
+for(let i=0;i<640;i++){const d=D[Math.floor(R()*6)],lv=R()<.5?0:R()<.65?1:2;
+const e={id:'E'+(1001+i),dept:d[0],level:['Junior','Mid','Senior'][lv],tenure:+(Math.min(12,-Math.log(1-R())*3.2)+.2).toFixed(1)};
+e.salary=+([4.5,9,17][lv]*d[3]*(.9+R()*.25)).toFixed(1);e.compa=+cl(gs()*.1+.97,.7,1.3).toFixed(2);
+e.workload=+cl(gs()*3.5+44+d[1],36,62).toFixed(1);e.overtime=+cl(gs()*5+13+d[2]+(e.workload-44)*1.6,0,60).toFixed(1);
+e.absence=+cl(gs()*2+4+(e.workload-44)*.15,0,20).toFixed(1);e.engagement=Math.round(cl(gs()*9+68-(e.overtime-13)*.6+(e.compa-.97)*30,15,100));
+e.training=Math.round(cl(gs()*9+22,0,60));e.perf=cl(Math.round(gs()*.8+3.4),1,5);
+const l=-1.75-.8*(e.compa-.97)/.1+.45*(e.workload-44)/4+.55*(e.overtime-14)/7+.35*(e.absence-4)/2.5-.85*(e.engagement-66)/11-.4*(e.training-22)/9-.1*(e.perf-3.4)/.8-.3*(e.tenure-3.5)/2.5;
+e.left=R()<sg(l);e.month=1+Math.floor(R()*12);E.push(e)}
+const n=E.length,K=FS.length,M={},S={};
+FS.forEach(f=>{const v=E.map(e=>e[f[0]]);M[f[0]]=v.reduce((a,b)=>a+b)/n;S[f[0]]=Math.sqrt(v.reduce((a,b)=>a+(b-M[f[0]])**2,0)/n)});
+const z=(e,k)=>(e[FS[k][0]]-M[FS[k][0]])/S[FS[k][0]];
+let W=Array(K).fill(0),B=0;const X=E.map(e=>FS.map((f,k)=>z(e,k)));
+for(let it=0;it<500;it++){const g=Array(K).fill(0);let gb=0;for(let i=0;i<n;i++){let s=B;for(let k=0;k<K;k++)s+=W[k]*X[i][k];const er=sg(s)-(E[i].left?1:0);gb+=er;for(let k=0;k<K;k++)g[k]+=er*X[i][k]}
+for(let k=0;k<K;k++)W[k]-=.5*(g[k]/n+.002*W[k]);B-=.5*gb/n}
+const risk=(e,o)=>{let s=B;FS.forEach((f,k)=>{const v=o&&o[f[0]]!==undefined?o[f[0]]:e[f[0]];s+=W[k]*(v-M[f[0]])/S[f[0]]});return sg(s)};
+E.forEach(e=>e.p=risk(e));
+const cost=e=>e.salary*.5+1.5,ACT=E.filter(e=>!e.left),LEFT=E.filter(e=>e.left);
+const fm=l=>l>=100?'₹'+(l/100).toFixed(2)+' Cr':'₹'+l.toFixed(1)+' L',pc=x=>(x*100).toFixed(1)+'%';
+(function(){let a=0,c=0;LEFT.forEach(x=>ACT.forEach(y=>{c++;if(x.p>y.p)a++;else if(x.p==y.p)a+=.5}));$('#auc').textContent='Model AUC '+(a/c).toFixed(2)+' · logistic regression (in-browser)'})();
+const rate=l=>l.length?l.filter(e=>e.left).length/l.length:0;
+function bars(rows,fmt,max){max=max||Math.max(...rows.map(r=>r[1]));return rows.map(r=>`<div class=br><span>${r[0]}</span><div class=bt><i style="width:${r[1]/max*100}%;background:${r[2]||'var(--acc)'}"></i></div><b>${fmt(r[1])}</b></div>`).join('')}
+const col=r=>r>.28?'var(--bad)':r>.2?'var(--warn)':'var(--good)';
+function quart(k){const s=[...E].sort((a,b)=>a[FS[k][0]]-b[FS[k][0]]),q=n/4;return[0,1,2,3].map(i=>rate(s.slice(Math.round(i*q),Math.round((i+1)*q))))}
+function topDrv(e,m){return FS.map((f,k)=>({k,c:W[k]*z(e,k),w:f[2][z(e,k)>0?1:0]})).filter(x=>x.c>.12).sort((a,b)=>b.c-a.c).slice(0,m||3)}
+function sim(list,l){let b=0,a=0,c=0,sv=0;list.forEach(e=>{const p0=e.p,p1=risk(e,{compa:e.compa*(1+l.pay/100),overtime:e.overtime*(1-l.ot/100),workload:e.workload-l.wl,engagement:Math.min(100,e.engagement+l.eng),training:e.training+l.tr});b+=p0;a+=p1;sv+=(p0-p1)*cost(e);c+=e.salary*l.pay/100+l.ot*.008+l.wl*.15+l.eng*.03+l.tr*.015});
+return{b,a,av:b-a,c,sv,roi:c?(sv-c)/c:0,n:list.length}}
+const L0={pay:0,ot:0,wl:0,eng:0,tr:0};
+const PRE=[['Pay +5% (compa-ratio)',{pay:5}],['Overtime −30%',{ot:30}],['Workload −3 hrs/week',{wl:3}],['Engagement +8 pts',{eng:8}],['Training +15 hrs/yr',{tr:15}]];
+const HI=ACT.filter(e=>e.p>=.3);
+const play=()=>PRE.map(p=>({n:p[0],...sim(HI,{...L0,...p[1]})})).sort((a,b)=>b.roi-a.roi);
+const T=[['ov','Overview'],['dr','Root causes'],['rk','Risk radar'],['sm','Intervention lab'],['ag','AI agent'],['br','Problem brief']];
+let tab=(location.hash||'#ov').slice(1);if(!T.some(t=>t[0]==tab))tab='ov';
+function go(t){tab=t;location.hash=t;nav();V[t]()}
+function nav(){$('#nav').innerHTML=T.map(t=>`<button class="${t[0]==tab?'on':''}" onclick="go('${t[0]}')">${t[1]}</button>`).join('')}
+const kp=(b,s,c)=>`<div class="card kpi"><span>${s}</span><b style="color:${c||'inherit'}">${b}</b></div>`;
+const V={
+ov(){const tc=LEFT.reduce((a,e)=>a+cost(e),0),m=Array(12).fill(0);LEFT.forEach(e=>m[e.month-1]++);const mx=Math.max(...m)+2;
+const pts=m.map((v,i)=>`${20+i*33},${120-v/mx*100}`).join(' ');
+const tb=[['< 1 yr',0,1],['1–3 yrs',1,3],['3–6 yrs',3,6],['6+ yrs',6,99]].map(b=>[b[0],rate(E.filter(e=>e.tenure>=b[1]&&e.tenure<b[2]))]);
+$('#view').innerHTML=`<div class="g k">${kp(n,'Headcount (start of year)')}${kp(LEFT.length,'Exits, last 12 months','var(--bad)')}${kp(pc(rate(E)),'Attrition rate','var(--bad)')}${kp(fm(tc),'Estimated cost of attrition')}${kp(HI.length,'Active staff at high risk (≥30%)','var(--warn)')}${kp(fm(HI.reduce((a,e)=>a+e.p*cost(e),0)),'Expected cost from high-risk group')}</div>
+<div class="g c2" style="margin-top:14px"><div class=card><h3>Attrition rate by department</h3><p class=sub>Share of employees who left in the last 12 months</p>${bars(D.map(d=>[d[0],rate(E.filter(e=>e.dept==d[0])),col(rate(E.filter(e=>e.dept==d[0])))]),pc)}</div>
+<div class=card><h3>Attrition by tenure band</h3><p class=sub>Early-tenure and mid-tenure exits show where onboarding and growth break down</p>${bars(tb.map(t=>[t[0],t[1],col(t[1])]),pc)}</div>
+<div class=card><h3>Monthly exits</h3><p class=sub>Count of resignations per month</p><svg viewBox="0 0 400 140" style="width:100%"><polyline fill="none" stroke="var(--acc)" stroke-width="2.5" points="${pts}"/>${m.map((v,i)=>`<circle cx="${20+i*33}" cy="${120-v/mx*100}" r="3.5" fill="var(--acc)"/><text x="${20+i*33}" y="136" font-size="9" text-anchor="middle" fill="var(--mut)">${'JFMAMJJASOND'[i]}</text><text x="${20+i*33}" y="${112-v/mx*100}" font-size="9" text-anchor="middle" fill="var(--ink)">${v}</text>`).join('')}</svg></div>
+<div class=card><h3>Attrition by level</h3><p class=sub>Seniority split of exits</p>${bars(['Junior','Mid','Senior'].map(l=>[l,rate(E.filter(e=>e.level==l)),col(rate(E.filter(e=>e.level==l)))]),pc)}<p class=sub style="margin-top:14px">Average replacement cost assumed at 50% of annual salary + ₹1.5 L hiring and ramp-up.</p></div></div>`},
+dr(){const o=FS.map((f,k)=>k).sort((a,b)=>Math.abs(W[b])-Math.abs(W[a])),mx=Math.max(...W.map(Math.abs));
+$('#view').innerHTML=`<div class="g c2"><div class=card><h3>Driver ranking (multivariate model)</h3><p class=sub>Effect of a 1 standard-deviation change on the odds of leaving, with all other factors held constant. Red raises risk, green protects.</p>
+${o.map(k=>`<div class=dv><span>${FS[k][1]}</span><div class=dvb><i style="${W[k]>0?'left:50%':'right:50%'};width:${Math.abs(W[k])/mx*50}%;background:${W[k]>0?'var(--bad)':'var(--good)'}"></i></div><b class="${W[k]>0?'bad':'good'}">OR ${Math.exp(W[k]).toFixed(2)}</b></div>`).join('')}</div>
+<div class=card><h3>Dose-response explorer</h3><p class=sub>Attrition rate across quartiles of one factor (Q1 = lowest values)</p><select id=qf>${FS.map((f,k)=>`<option value=${k}>${f[1]}</option>`).join('')}</select><div id=qo style="margin-top:10px"></div></div></div>
+<div class=card style="margin-top:14px"><h3>Department × driver heatmap (active employees)</h3><p class=sub>Average standardized value vs company mean, oriented so red = pushes risk up, green = protective</p><div class=wrap><table class=hm><tr><th>Department</th>${FS.map(f=>`<th>${f[1].split(' (')[0]}</th>`).join('')}</tr>
+${D.map(d=>{const l=ACT.filter(e=>e.dept==d[0]);return`<tr><td>${d[0]}</td>${FS.map((f,k)=>{const m=l.reduce((a,e)=>a+z(e,k),0)/l.length,a=m*Math.sign(W[k]);return`<td style="background:${a>0?'rgba(229,72,77,':'rgba(46,166,107,'}${Math.min(.6,Math.abs(a)*1.3)})">${m>0?'+':''}${m.toFixed(2)}</td>`}).join('')}</tr>`}).join('')}</table></div></div>`;
+const u=()=>{const k=+$('#qf').value,q=quart(k);$('#qo').innerHTML=bars(q.map((r,i)=>['Q'+(i+1),r,col(r)]),pc,Math.max(...q,.3))+`<p class=sub>Q1 → Q4 shift: <b>${(q[3]>q[0]?'+':'')+((q[3]-q[0])*100).toFixed(1)} pts</b>. Correlation is not causation: validate with exit interviews before acting.</p>`};$('#qf').onchange=u;u()},
+rk(){$('#view').innerHTML=`<div class=card><div class=row style="margin-bottom:10px"><select id=rd><option>All departments</option>${D.map(d=>`<option>${d[0]}</option>`).join('')}</select><span class=sub style="align-self:center;margin:0" id=rc></span></div><div class=wrap><table><thead><tr><th>ID</th><th>Dept</th><th>Level</th><th>Tenure</th><th>Risk</th><th>Primary drivers</th><th>Exit cost</th></tr></thead><tbody id=rt></tbody></table></div><p class=sub style="margin-top:10px">Use for team-level planning and supportive conversations, not for individual penalties.</p></div>`;
+const u=()=>{const d=$('#rd').value,l=ACT.filter(e=>d[0]=='A'||e.dept==d).sort((a,b)=>b.p-a.p);$('#rc').textContent=l.length+' active employees · top 25 shown';
+$('#rt').innerHTML=l.slice(0,25).map(e=>`<tr><td>${e.id}</td><td>${e.dept}</td><td>${e.level}</td><td>${e.tenure}y</td><td><span class=pill style="background:${col(e.p)};color:#fff">${pc(e.p)}</span></td><td>${topDrv(e).map(x=>`<span class=chip>${x.w}</span>`).join('')}</td><td>${fm(cost(e))}</td></tr>`).join('')};$('#rd').onchange=u;u()},
+sm(){const sl=[['pay','Pay increase (%)',15],['ot','Overtime reduction (%)',60],['wl','Workload reduction (hrs/wk)',8],['eng','Engagement uplift (pts)',15],['tr','Extra training (hrs/yr)',30]];
+$('#view').innerHTML=`<div class="g c2"><div class=card><h3>Intervention lab</h3><p class=sub>Design a retention package and see its projected effect on next-year exits.</p><label class=sub>Target group</label><br><select id=sc><option value=hi>High-risk (≥30%)</option><option value=all>All active employees</option>${D.map(d=>`<option>${d[0]}</option>`).join('')}</select>
+${sl.map(s=>`<div class=sl><label>${s[1]}<b id=v_${s[0]}>0</b></label><input type=range id=s_${s[0]} min=0 max=${s[2]} step=${s[0]=='pay'||s[0]=='wl'?.5:1} value=0></div>`).join('')}<button class=btn onclick="sl.forEach(s=>$('#s_'+s[0]).value=0);U()">Reset</button></div><div class=card id=so></div></div>`;
+window.sl=sl;window.U=()=>{const l={};sl.forEach(s=>{l[s[0]]=+$('#s_'+s[0]).value;$('#v_'+s[0]).textContent=l[s[0]]});const v=$('#sc').value,t=v=='hi'?HI:v=='all'?ACT:ACT.filter(e=>e.dept==v),r=sim(t,l);
+$('#so').innerHTML=`<h3>Projected impact · ${r.n} employees</h3><p class=sub>Expected exits over the next 12 months</p>${bars([['Baseline',r.b,'var(--bad)'],['With package',r.a,'var(--good)']],x=>x.toFixed(1),r.b)}
+<div class="g k" style="margin-top:14px"><div class=kpi><span>Exits avoided</span><b class=good>${r.av.toFixed(1)}</b></div><div class=kpi><span>Replacement cost saved</span><b>${fm(r.sv)}</b></div><div class=kpi><span>Programme cost</span><b>${fm(r.c)}</b></div><div class=kpi><span>Net ROI</span><b class="${r.roi>=0?'good':'bad'}">${r.c?(r.roi*100).toFixed(0)+'%':'—'}</b></div></div>
+<p class=sub style="margin-top:14px">Assumed unit costs: ₹3k per employee per overtime %, ₹0.15 L per hour of workload backfill, ₹3k per engagement point, ₹1.5k per training hour. Pay cost is the full annual increase. Effects are model estimates and assume additive impact.</p>`};
+document.querySelectorAll('input[type=range],#sc').forEach(x=>x.oninput=U);U()},
+ag(){$('#view').innerHTML=`<div class="g c2"><div class=card><h3>Retention AI agent</h3><p class=sub>Ask in plain language. The agent queries the model and data above.</p><div class=chat id=ch></div><div class=qs>${['Why are people leaving?','Which department is at highest risk?','Recommend interventions','Who is most at risk?','What is the cost of attrition?','What if overtime is reduced by 30%?','Tell me about Sales'].map(q=>`<button onclick="ask('${q}')">${q}</button>`).join('')}</div><div class=row><input type=text id=qi placeholder="e.g. what if we raise pay by 6%?"><button class="btn p" onclick="ask()">Ask</button></div></div>
+<div class=card><h3>Retention playbook (auto-ranked)</h3><p class=sub>Standard interventions applied to the ${HI.length} high-risk employees, ranked by ROI</p><table><tr><th>Intervention</th><th>Exits avoided</th><th>Cost</th><th>ROI</th></tr>${play().map(p=>`<tr><td>${p.n}</td><td>${p.av.toFixed(1)}</td><td>${fm(p.c)}</td><td class="${p.roi>=0?'good':'bad'}"><b>${(p.roi*100).toFixed(0)}%</b></td></tr>`).join('')}</table></div></div>`;
+$('#qi').onkeydown=e=>{if(e.key=='Enter')ask()};say('a','Hello, I am your retention analyst. Ask about drivers, departments, at-risk people, costs, or run a what-if.')}
+,br(){$('#view').innerHTML=`<div class="g c2"><div class=card><h3>The problem</h3><p>Turnover has risen, driving up recruitment cost, lost productivity and team disruption. Leaders see <i>who</i> left but not <i>why</i>, because performance, workload, pay, absence, overtime, engagement and training data sit in separate systems.</p><h3>The ask</h3><ul><li><b>Integrate</b> the seven data domains into one employee-level view.</li><li><b>Identify</b> organizational factors statistically associated with exits.</li><li><b>Predict</b> who and which teams are at risk.</li><li><b>Recommend</b> evidence-based interventions with projected ROI.</li></ul></div>
+<div class=card><h3>Solution architecture</h3><ul><li><b>Data layer:</b> HRIS, payroll, attendance, timesheets, survey and LMS tables joined on employee ID.</li><li><b>Analytics layer:</b> logistic regression for explainable driver odds ratios; dose-response and department heatmaps.</li><li><b>Prediction:</b> per-employee risk score with top contributing factors.</li><li><b>Simulation:</b> counterfactual what-if on levers (pay, overtime, workload, engagement, training) priced against replacement cost.</li><li><b>Agent:</b> natural-language interface over the above.</li></ul></div>
+<div class=card><h3>Assumed data schema</h3><div class=wrap><table><tr><th>Field</th><th>Source</th><th>Unit</th></tr><tr><td>compa-ratio</td><td>Payroll</td><td>salary ÷ market median</td></tr><tr><td>workload</td><td>Timesheets</td><td>hrs/week</td></tr><tr><td>overtime</td><td>Timesheets</td><td>hrs/month</td></tr><tr><td>absence</td><td>Attendance</td><td>days / 6 months</td></tr><tr><td>engagement</td><td>Pulse survey</td><td>0–100</td></tr><tr><td>training</td><td>LMS</td><td>hrs/year</td></tr><tr><td>performance</td><td>Appraisal</td><td>1–5</td></tr><tr><td>tenure, level, dept</td><td>HRIS</td><td>—</td></tr><tr><td>left (target)</td><td>HRIS</td><td>exit in 12 months</td></tr></table></div></div>
+<div class=card><h3>Caveats and governance</h3><ul><li>Data is synthetic, generated with built-in relationships, so findings demonstrate the method, not a real company.</li><li>Associations are not proof of cause; validate with exit interviews and pilots.</li><li>Use risk scores for team-level planning; protect privacy and avoid discrimination.</li><li>With real data: add time-based validation, fairness checks and survival analysis.</li></ul></div></div>`}};
+function say(w,h){const c=$('#ch');c.insertAdjacentHTML('beforeend',`<div class="m ${w}">${h}</div>`);c.scrollTop=c.scrollHeight}
+function ask(q){q=q||$('#qi').value.trim();if(!q)return;$('#qi').value='';say('u',q);say('a','<i>Analysing…</i>');setTimeout(()=>{$('#ch').lastChild.remove();say('a',agent(q))},350)}
+function agent(q){const t=q.toLowerCase(),num=(t.match(/(\d+(\.\d+)?)/)||[])[1],dep=D.find(d=>t.includes(d[0].toLowerCase()));
+const lv=/pay|salar|compens|raise/.test(t)?['pay',0]:/overtime|\bot\b/.test(t)?['ot',2]:/workload|hours/.test(t)?['wl',1]:/engag/.test(t)?['eng',4]:/train/.test(t)?['tr',5]:/absen/.test(t)?[null,3]:null;
+if(lv&&lv[0]&&num&&/what|simulate|reduce|increase|raise|cut|boost|add/.test(t)){const l={...L0};l[lv[0]]=+num;const tg=dep?ACT.filter(e=>e.dept==dep[0]):ACT,r=sim(tg,l);return`Applying <b>${lv[0]=='pay'?'+':'−'}${num}${lv[0]=='pay'||lv[0]=='ot'?'%':lv[0]=='wl'?' hrs/wk':lv[0]=='eng'?' pts':' hrs'}</b> ${lv[0]=='eng'||lv[0]=='tr'?'(uplift) ':''}to ${tg.length} ${dep?dep[0]+' ':''}employees: expected exits fall from <b>${r.b.toFixed(1)}</b> to <b>${r.a.toFixed(1)}</b> (${r.av.toFixed(1)} avoided), saving ${fm(r.sv)} against a cost of ${fm(r.c)}. ROI <b class="${r.roi>=0?'good':'bad'}">${(r.roi*100).toFixed(0)}%</b>.`}
+if(dep){const l=ACT.filter(e=>e.dept==dep[0]),x=FS.map((f,k)=>({n:f[2][0],h:f[2][1],m:l.reduce((a,e)=>a+z(e,k),0)/l.length,k})).map(o=>({...o,a:o.m*Math.sign(W[o.k])})).sort((a,b)=>b.a-a.a);
+return`<b>${dep[0]}</b>: attrition ${pc(rate(E.filter(e=>e.dept==dep[0])))} (company ${pc(rate(E))}); ${l.filter(e=>e.p>=.3).length} of ${l.length} active staff at high risk. Biggest pressure points vs company: <b>${x.slice(0,2).map(o=>o.m>0?o.h:o.n).join('</b> and <b>')}</b>. Try: <i>what if overtime is cut 30% in ${dep[0]}</i>.`}
+if(/recommend|intervention|retain|retention|plan|strateg|action|playbook/.test(t)){const p=play();return`Ranked by ROI for the ${HI.length} high-risk employees:<ol>${p.map(x=>`<li><b>${x.n}</b>: ${x.av.toFixed(1)} exits avoided, cost ${fm(x.c)}, ROI ${(x.roi*100).toFixed(0)}%</li>`).join('')}</ol>Start with <b>${p[0].n}</b>, then pilot and measure.`}
+if(/driver|why|cause|root|factor|leav/.test(t)){const o=FS.map((f,k)=>k).sort((a,b)=>Math.abs(W[b])-Math.abs(W[a])).slice(0,3);return`Top three factors (odds ratio per 1 SD):<ul>${o.map(k=>`<li><b>${FS[k][1]}</b>: ${Math.exp(W[k]).toFixed(2)} (${W[k]>0?'raises':'lowers'} risk)</li>`).join('')}</ul>Check the Root causes tab for the dose-response view.`}
+if(/cost|saving|money|budget|financ/.test(t)){const c=LEFT.reduce((a,e)=>a+cost(e),0);return`Last year: <b>${LEFT.length} exits</b> costing about <b>${fm(c)}</b> (${fm(c/LEFT.length)} per exit). Expected cost from the high-risk group over the next year: <b>${fm(HI.reduce((a,e)=>a+e.p*cost(e),0))}</b>.`}
+if(/who|employee|high.?risk|at.?risk|list/.test(t)){return`Top 5 at-risk active employees:<ul>${[...ACT].sort((a,b)=>b.p-a.p).slice(0,5).map(e=>`<li><b>${e.id}</b> (${e.dept}, ${e.level}) ${pc(e.p)}: ${topDrv(e,2).map(x=>x.w).join(', ')}</li>`).join('')}</ul>`}
+if(/dept|department|team|where/.test(t)){const r=D.map(d=>[d[0],ACT.filter(e=>e.dept==d[0]).reduce((a,e)=>a+e.p,0)/ACT.filter(e=>e.dept==d[0]).length]).sort((a,b)=>b[1]-a[1]);return`Average predicted risk by department:<br>${r.map(x=>`<b>${x[0]}</b> ${pc(x[1])}`).join(' · ')}`}
+if(lv&&lv[1]!==undefined){const q4=quart(lv[1]);return`For <b>${FS[lv[1]][1]}</b>, attrition runs ${pc(q4[0])} in the lowest quartile vs ${pc(q4[3])} in the highest. Add a number to simulate, e.g. “reduce overtime by 30%”.`}
+return'I can explain <b>drivers</b>, rank <b>departments</b>, list <b>at-risk employees</b>, estimate <b>cost</b>, <b>recommend interventions</b>, or run a <b>what-if</b> such as “raise pay by 6%”.'}
+nav();V[tab]();
+</script></body></html>
